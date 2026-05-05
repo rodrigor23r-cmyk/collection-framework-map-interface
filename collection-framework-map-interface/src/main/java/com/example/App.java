@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /*
  * https://www.java2s.com/Tutorials/Java/Java_Stream/index.html
@@ -24,27 +26,16 @@ public class App {
     	listadoArgumentos.forEach(System.out::println);
     	
     	// Creación del mapa a partir del listado de argumentos
-    	Map<String, Integer> mapa = new HashMap<>();
-    	
-    	Integer repeticion = null;
-    	// método for mejorado:
-    	for (String nombre : listadoArgumentos) {
-			// opción: 1
-    		repeticion = mapa.get(nombre);
-    		mapa.put(nombre, repeticion == null ? 1 : ++repeticion); 
-    	/* opción 2
-    	 * 	if (mapa.containsKey(nombre)) {
-    			mapa.put(nombre, mapa.get(nombre) + 1);
-    		} else {
-    			mapa.put(nombre, 1);
-    		}
-    		*/
-		}   		
-    	System.out.println(mapa);
+    
+
     	System.out.println("=========================================");
     	// método operaciones de agregado:
+    	Map<String, Long> mapa = 
+    			listadoArgumentos.stream()
+    			.collect(Collectors.groupingBy
+    					(nombre -> nombre, Collectors.counting()));
     	
-    	
+    	System.out.println(mapa);
     	
     }
 }
