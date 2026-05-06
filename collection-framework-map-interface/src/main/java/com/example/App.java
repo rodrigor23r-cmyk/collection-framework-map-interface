@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -30,12 +31,21 @@ public class App {
 
     	System.out.println("=========================================");
     	// método operaciones de agregado:
-    	Map<String, Long> mapa = 
-    			listadoArgumentos.stream()
-    			.collect(Collectors.groupingBy
-    					(nombre -> nombre, Collectors.counting()));
     	
-    	System.out.println(mapa);
+    	Map<String, Long> mapa1 = null;
+    	
+    			mapa1 = listadoArgumentos.stream()
+    			.collect(Collectors.groupingBy
+    					(Function.identity(), Collectors.counting()));
+    	
+    	System.out.println(mapa1);
+    	
+    	System.out.println("=========================================");
+    	
+    	var mapa2 = listadoArgumentos.stream()
+    	 .collect(Collectors.groupingBy(nombre -> nombre, Collectors.counting() ));
+    	
+    	System.out.println(mapa2);
     	
     }
 }
