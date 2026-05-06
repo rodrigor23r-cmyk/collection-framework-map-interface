@@ -23,4 +23,22 @@ public class Empleado extends Persona {
 	private LocalDate fechaAlta;
 	
 	
+	@Override
+	public String toString() {
+	    return String.format(
+	        "\n================ FICHA DE EMPLEADO ================\n" +
+	        "  Nombre completo : %s %s %s\n" +
+	        "  Nacimiento      : %s\n" +
+	        "  Género          : %s\n" +
+	        "---------------------------------------------------\n" +
+	        "  Departamento    : %s\n" +
+	        "  Fecha de Alta   : %s\n" +
+	        "  Salario         : %.2f €\n" + 
+	        "===================================================\n",
+	        super.getNombre(), super.getPrimerApellido(), super.getSegundoApellido(), // Atributos de Persona
+	        super.getFechaNacimiento(), super.getGenero(),
+	        this.getDpto(), this.getFechaAlta(), this.getSalario()                    // Atributos de Empleado
+	    );
+	}
+	
 }

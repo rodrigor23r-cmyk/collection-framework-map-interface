@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -203,7 +204,8 @@ public class App {
 	    emp8, emp9, emp10, emp11, emp12, emp13, est1);
 // listadoGenerico.add(emp1);
     	
-    	
+    	System.out.println(emp1.equals(emp2)); // da true si todos los campos del tipo son iguales
+    	System.out.println("Código hash de emp1: " + emp1.hashCode()); // da la referencia en memoria
     	
     	/*=============colección que agrupe por género sólo los empleados================*/
     	
@@ -216,6 +218,8 @@ public class App {
     			.collect(Collectors.groupingBy(Persona::getGenero)); // no es necesario indicar el valor!!!!
     	
     	System.out.println(personasPorGenero2);
+
+    	
     	// ========================================================	
     	// Cambia List<Persona> por List<String>
     	Map<Genero, List<String>> personasPorGenero3 = listadoGenerico.stream()
@@ -223,12 +227,40 @@ public class App {
     	                Collectors.mapping(Persona::getNombre, Collectors.toList())));
 
     	System.out.println(personasPorGenero3);
-    	// ========================================================
-    	/*Map<Genero, List<Empleado>> empleadosPorGenero4 = listadoGenerico.stream()
-    			.filter(obj -> obj instanceof Empleado)
-    			.
-    	*/
     	
+    	
+    	
+    	// ========================================================
+    	Map<Genero, List<String>> empleadosPorGenero4 = listadoGenerico.stream()
+    			.filter(obj -> obj instanceof Empleado)
+    			.map(obj -> (Empleado) obj)
+    	      //.filter(Empleado.class::isInstance) // Reemplaza a obj instanceof Empleado
+    		  //.map(Empleado.class::cast)          // Reemplaza a (Empleado) obj
+    			.collect(Collectors.groupingBy(Empleado::getGenero,
+    		    Collectors.mapping(Empleado::getNombre, Collectors.toList())));
+    	
+    	    	
+    	// 1. Extraemos las listas de forma segura (por si no hubiera hombres o mujeres)
+    	List<String> hombreS = empleadosPorGenero4.getOrDefault(Genero.HOMBRE, Collections.emptyList());
+    	List<String> mujereS = empleadosPorGenero4.getOrDefault(Genero.MUJER, Collections.emptyList());
+
+    	// 2. Averiguamos cuál es la lista más larga para saber cuántas filas tendrá la tabla
+    	int maxFilaS = Math.max(hombreS.size(), mujereS.size());
+
+    	// 3. Imprimimos la cabecera (usamos %-25s para reservar 25 espacios alineados a la izquierda)
+    	System.out.println(String.format("\n%-25s | %-25s", "HOMBRES", "MUJERES"));
+    	System.out.println("--------------------------+--------------------------");
+
+    	// 4. Bucle para imprimir fila a fila
+    	for (int i = 0; i < maxFilaS; i++) {
+    	    // Operador ternario: Si hay elemento en esa posición, lo coge. Si no, pone un espacio en blanco.
+    	    String nombreHombrE = (i < hombreS.size()) ? hombreS.get(i) : "";
+    	    String nombreMujeR = (i < mujereS.size()) ? mujereS.get(i) : "";
+    	    
+    	    // Imprimimos la fila respetando los 25 espacios de columna
+    	    System.out.println(String.format("%-25s | %-25s", nombreHombrE, nombreMujeR));
+    	}
+    	System.out.println("--------------------------+--------------------------\n");
     	
     }
 }

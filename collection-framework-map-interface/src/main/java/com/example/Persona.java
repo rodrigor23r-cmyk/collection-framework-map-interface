@@ -21,6 +21,8 @@ public class Persona {
 	private String segundoApellido;
 	private LocalDate fechaNacimiento;
 	private Genero genero;
+	
+	
 		
 	}
 
