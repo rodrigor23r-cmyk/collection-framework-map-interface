@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -325,16 +326,43 @@ public class App {
     	
     	System.out.println(salarioMedioPorFechaAltaDeMujer);
     	
+
     	
-    	/*Map<LocalDate, Map<Genero, Double>> salarioMedioPorFechaAltaDeMujer2 = listadoGenerico.stream()
-    			.filter(p -> p instanceof Empleado emp && emp.getGenero() == Genero.MUJER) // o equals!!
-    			.map(o -> (Empleado) o)
-    			.collect(groupingBy(Empleado::getFechaAlta, // he borrado Collectors gracias a la import larga del *.
-    			groupingBy(e -> {e.getGenero(); count++},
-    			averagingDouble(e -> e.getSalario().doubleValue()))));
+    	// ================================= traversing ====================================
+    	for (Map.Entry<String, Long> mapeando : mapa1.entrySet()) {
+    		
+    		String k = mapeando.getKey();
+    		Long v = mapeando.getValue();
+    		
+    		if (v % 2 == 0) {
+    		
+    			System.out.println("traversion Mapa1 " + v);
+    		}    		
+    	}
+    	// lo mismo pero con operaciones de agregado ==========================
+    		
+    		mapa1.entrySet().forEach(mapear -> { 
     			
+    			if (mapear.getValue() % 2 == 0) {
+    				System.out.println("repito el ejerc. anterior " + mapear.getValue());
+    			}
+    		});
+    			
+    	//empleadosPorDptoYGenero ,los antiguos primero
+    		// Map<Departamento, Map<Genero, List<Empleado>>>
+    		
+    		for (Map.Entry<Departamento,Map<Genero, List<Empleado>>> iterador : empleadosPorDptoYGenero.entrySet()) {
+    			
+    			Departamento k = iterador.getKey();
+    			Map<Genero, List<Empleado>> v = iterador.getValue();
+    			for (Map.Entry<Genero, List<Empleado>> iterador2 : v.entrySet()) {
+    				
+        			System.out.println("Del Dpto. " + k + " y del género: " + iterador.getKey());
+        			System.out.println("Empleado mostrados en orden de antigüedad:");
+    			}
+    			
+
+    		}
     	
-    	System.out.println("escribiendo MUJER" + salarioMedioPorFechaAltaDeMujer2);
-    	*/
     }
 }
