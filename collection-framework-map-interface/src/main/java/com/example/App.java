@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -136,7 +137,7 @@ public class App {
     			.fechaNacimiento(LocalDate.of(1990, Month.MAY, 18))
     			.dpto(Departamento.INFORMATICA)
     			.salario(new BigDecimal(3500.45))
-    			.fechaAlta(LocalDate.of(2015, Month.SEPTEMBER, 22))
+    			.fechaAlta(LocalDate.of(2010, Month.JUNE, 05))
     			.build();
     	Empleado emp9 = Empleado.builder()
     			.nombre("Alberto")
@@ -326,15 +327,24 @@ public class App {
     	System.out.println(salarioMedioPorFechaAltaDeMujer);
     	
     	
-    	/*Map<LocalDate, Map<Genero, Double>> salarioMedioPorFechaAltaDeMujer2 = listadoGenerico.stream()
+    	Map<LocalDate, DoubleSummaryStatistics> salarioMedioPorFechaAltaDeMujer2 = listadoGenerico.stream()
     			.filter(p -> p instanceof Empleado emp && emp.getGenero() == Genero.MUJER) // o equals!!
     			.map(o -> (Empleado) o)
     			.collect(groupingBy(Empleado::getFechaAlta, // he borrado Collectors gracias a la import larga del *.
-    			groupingBy(e -> {e.getGenero(); count++},
-    			averagingDouble(e -> e.getSalario().doubleValue()))));
+    			summarizingDouble(e -> e.getSalario().doubleValue())));
     			
     	
-    	System.out.println("escribiendo MUJER" + salarioMedioPorFechaAltaDeMujer2);
-    	*/
+    	System.out.println("============salario medio por fecha de alta en mujeres===========");
+    	
+    	salarioMedioPorFechaAltaDeMujer2.forEach((fechA, estadisticA) -> {
+    		
+    	System.out.println(String.format(
+ 				"fecha: %s ---> mujeres: %d ---> salario medio: %.2f €", 
+ 				fechA,
+ 				estadisticA.getCount(),
+ 				estadisticA.getAverage()));
+    	});
+    	
+    	
     }
 }
