@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
 import static java.util.stream.Collectors.*; // permite no tener que escribrir Collectors todo el rato
 /*
  * https://www.java2s.com/Tutorials/Java/Java_Stream/index.html
@@ -37,7 +39,7 @@ public class App {
     	// Creación del mapa a partir del listado de argumentos
     
 
-    	System.out.println("=========================================");
+    	System.out.println("===================MAPA 1======================");
     	// método operaciones de agregado:
     	
     	Map<String, Long> mapa1 = null;
@@ -48,7 +50,7 @@ public class App {
     	
     	System.out.println(mapa1);
     	
-    	System.out.println("=========================================");
+    	System.out.println("=================MAPA 2=======================");
     	
     	var mapa2 = listadoArgumentos.stream()
     	 .collect(Collectors.groupingBy(nombre -> nombre, Collectors.counting() ));
@@ -336,7 +338,7 @@ public class App {
     		
     		if (v % 2 == 0) {
     		
-    			System.out.println("traversion Mapa1 " + v);
+    			System.out.println("traversion Mapa1 pares " + k +" --> "+ v);
     		}    		
     	}
     	// lo mismo pero con operaciones de agregado ==========================
@@ -344,7 +346,7 @@ public class App {
     		mapa1.entrySet().forEach(mapear -> { 
     			
     			if (mapear.getValue() % 2 == 0) {
-    				System.out.println("repito el ejerc. anterior " + mapear.getValue());
+    				System.out.println("repito el ejerc. anterior con forEach " + mapear.getValue());
     			}
     		});
     			
@@ -357,8 +359,14 @@ public class App {
     			Map<Genero, List<Empleado>> v = iterador.getValue();
     			for (Map.Entry<Genero, List<Empleado>> iterador2 : v.entrySet()) {
     				
-        			System.out.println("Del Dpto. " + k + " y del género: " + iterador.getKey());
-        			System.out.println("Empleado mostrados en orden de antigüedad:");
+        			System.out.println("Del Dpto. " + k + " y del género: " + iterador2.getKey());
+        			
+        			Genero geni = iterador2.getKey();
+        			List<Empleado> empi = iterador2.getValue();
+        			empi.sort(Comparator.comparing(Empleado::getFechaAlta));
+        			String ristraNombres = empi.stream().map(Empleado::getNombre).collect(joining(" , "));
+        			
+        			System.out.println("Empleado mostrados en orden de antigüedad:" + ristraNombres);
     			}
     			
 
