@@ -350,27 +350,62 @@ public class App {
     			}
     		});
     			
-    	//empleadosPorDptoYGenero ,los antiguos primero
-    		// Map<Departamento, Map<Genero, List<Empleado>>>
+    	//================ empleadosPorDptoYGenero ,los antiguos primero ORDEN NATURAL===================================
+    	// Map<Departamento, Map<Genero, List<Empleado>>>
     		
-    		for (Map.Entry<Departamento,Map<Genero, List<Empleado>>> iterador : empleadosPorDptoYGenero.entrySet()) {
+    		for (Map.Entry<Departamento,Map<Genero, List<Empleado>>> iterador1 : empleadosPorDptoYGenero.entrySet()) { // entrySet()claves y valores
     			
-    			Departamento k = iterador.getKey();
-    			Map<Genero, List<Empleado>> v = iterador.getValue();
-    			for (Map.Entry<Genero, List<Empleado>> iterador2 : v.entrySet()) {
+    			Departamento klaveDpto = iterador1.getKey();
+    			
+    			Map<Genero, List<Empleado>> valor1 = iterador1.getValue();
+    			
+    			for (Map.Entry<Genero, List<Empleado>> iterador2 : valor1.entrySet()) {
     				
-        			System.out.println("Del Dpto. " + k + " y del género: " + iterador2.getKey());
+    				Genero klaveGenero = iterador2.getKey();
+    				
+    				List<Empleado> listaEmpleados = iterador2.getValue();
+    				
+    				System.out.println("Del Dpto. " + klaveDpto + " y del género: " + klaveGenero);
         			
-        			Genero geni = iterador2.getKey();
-        			List<Empleado> empi = iterador2.getValue();
-        			empi.sort(Comparator.comparing(Empleado::getFechaAlta));
-        			String ristraNombres = empi.stream().map(Empleado::getNombre).collect(joining(" , "));
+        			Collections.sort(listaEmpleados); // orden natural!!
         			
-        			System.out.println("Empleado mostrados en orden de antigüedad:" + ristraNombres);
-    			}
-    			
+        			for(Empleado emplea : listaEmpleados) {
+        			
+        				System.out.println(emplea.getNombre());
+        			}
+    			}	
+        		
 
-    		}
+    			
+    		}	
+    		System.out.println(" ==========================================================================================");    		
+    		
+    		empleadosPorDptoYGenero.entrySet().forEach(iterador1 -> {
+    				
+    			System.out.println("del Dpto. " + iterador1.getKey());
+    				
+    			iterador1.getValue().entrySet().forEach(iterador2 -> {
+    				System.out.println("del género " + iterador2.getKey());
+    			
+    			String nombres	= iterador2.getValue().stream().sorted().map(Empleado::getNombre).collect(joining(" , "));
+    				// HE SUPRIMIDO COLLECTORS. porque importe toda la librería
+    			
+    			System.out.println("los empleados por orden de alta son: " + nombres);
+    			});
+    			
+    		});
+    				
+ 			/*
+  			 * esto no cumple con el ENUNCIADO DEL PROBLEMA no es orden natural (dado por Comparable) =======
+   			 * 
+   			 * listaEmpleados.sort(Comparator.comparing(Empleado::getFechaAlta));
+       		 *
+       		 *String ristraNombres = listaEmpleados.stream().map(Empleado::getNombre).collect(joining(" , "));
+       		 */
+    			
+    		
+
+    		
     	
     }
 }

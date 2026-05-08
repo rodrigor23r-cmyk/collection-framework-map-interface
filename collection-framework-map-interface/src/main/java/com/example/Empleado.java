@@ -16,10 +16,10 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 
-public class Empleado extends Persona {
+public class Empleado extends Persona implements Comparable<Empleado> {
 	
 	private Departamento dpto;
-	private BigDecimal salario;
+	private BigDecimal salario; 
 	private LocalDate fechaAlta;
 	
 	
@@ -39,6 +39,13 @@ public class Empleado extends Persona {
 	        super.getFechaNacimiento(), super.getGenero(),
 	        this.getDpto(), this.getFechaAlta(), this.getSalario()                    // Atributos de Empleado
 	    );
+	}
+
+
+	@Override
+	public int compareTo(Empleado emp) {
+		
+		return this.fechaAlta.compareTo(emp.fechaAlta);
 	}
 	
 }
