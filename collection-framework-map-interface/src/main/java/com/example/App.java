@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -400,11 +401,28 @@ public class App {
    			 * 
    			 * listaEmpleados.sort(Comparator.comparing(Empleado::getFechaAlta));
        		 *
-       		 *String ristraNombres = listaEmpleados.stream().map(Empleado::getNombre).collect(joining(" , "));
+       		 *
+       		 *============ ORDENAR CLAVES DE UN MAPA ========================
+       		 *
+       		 * Para Map no podemos hacer lo mismo que con las Collections
+       		 * Se usa HashMap y se copia en un TreeMap
+       		 * 
+       		 * ordenamos las claves del mapa1
        		 */
+    		System.out.println("============= rama orden de claves de mapas ====================");
+    		System.out.println(mapa1);
     			
+    		Map<String, Long> mapa1OrdenClaveLexico = new TreeMap<>();
     		
-
+    		mapa1OrdenClaveLexico.putAll(mapa1); // esto es HashMap, lo que quiera que signifique
+    		
+    		// en orden inverso
+    		Map<String, Long> mapa1OrdenClaveInversolexico = new TreeMap<>(Comparator.reverseOrder());
+    		
+    		mapa1OrdenClaveInversolexico.putAll(mapa1);
+    		
+    		System.out.println(mapa1OrdenClaveLexico);
+    		System.out.println(mapa1OrdenClaveInversolexico);
     		
     	
     }
